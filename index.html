@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FF MAX MOD ACCESS PORTAL – Register</title>
+<style>
+*{box-sizing:border-box;font-family:Poppins,system-ui,sans-serif;margin:0;padding:0;}
+body{min-height:100vh;background:#000;color:#fff;display:flex;justify-content:center;align-items:center;overflow:hidden;position:relative;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
+.header{position:fixed;top:0;left:0;width:100%;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;z-index:10;}
+.header div:first-child{display:flex;flex-direction:column;}
+.logo{font-size:1.2rem;font-weight:700;background:linear-gradient(90deg,#00ff66,#3cffc0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sub-logo{font-size:0.85rem;color:#00ff66;margin-top:2px;font-weight:600;}
+.menu{font-size:22px;opacity:.8;}
+.card{width:92%;max-width:360px;margin-top:90px;background:rgba(0,0,0,0.75);border-radius:18px;padding:26px 22px 28px;box-shadow:0 20px 50px rgba(0,255,102,.35);position:relative;overflow:hidden;z-index:10;}
+.card::before{content:"";position:absolute;left:0;top:0;width:6px;height:100%;background:linear-gradient(180deg,#00ff66,#3cffc0);}
+h1{margin:0;font-size:1.6rem;}
+.sub{color:#b5b9d6;font-size:.9rem;margin:6px 0 18px;}
+label{font-size:.9rem;color:#dfe3ff;}
+input[type=text],input[type=password]{width:100%;margin:6px 0 14px;padding:13px 14px;border-radius:12px;border:none;background:#0f1324;color:#fff;font-size:.95rem;outline:none;}
+input::placeholder{color:#6f7394}
+.success{display:none;flex-direction:column;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:12px;background:rgba(0,0,0,0.6);margin-bottom:16px;}
+.success .left{display:flex;align-items:center;gap:10px;}
+.tick{width:26px;height:26px;border-radius:50%;background:#19d46b;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;}
+.cf{font-size:.75rem;opacity:.75;}
+button{width:100%;padding:14px;border:none;border-radius:14px;font-size:1rem;font-weight:600;color:#000;cursor:pointer;background:linear-gradient(90deg,#00ff66,#3cffc0);box-shadow:0 10px 30px rgba(0,255,102,.35);}
+button:active{transform:scale(.98);}
+.footer{margin-top:16px;text-align:center;font-size:.9rem;color:#b5b9d6;}
+.footer a{color:#00ff66;text-decoration:none;font-weight:600;}
+label,input,button,h1,.sub{text-shadow:0 0 6px #00ff66;}
+</style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+
+<div class="header">
+  <div>
+    <div class="logo">FF MAX MOD ACCESS PORTAL 📃</div>
+    <div class="sub-logo">REGISTRATION</div>
+  </div>
+  <div class="menu">☰</div>
+</div>
+
+<div class="card">
+  <h1>Create Your Account</h1>
+  <div class="sub">Fill in the details to register</div>
+
+  <label>Username</label>
+  <input type="text" id="username" placeholder="Your username">
+
+  <label>Password</label>
+  <input type="password" id="password" placeholder="Your password">
+
+  <label>Confirm Password</label>
+  <input type="password" id="confirmPassword" placeholder="Confirm password">
+
+  <label>Credit Token</label>
+  <input type="text" id="creditToken" placeholder="Credit Token">
+
+  <div class="success" id="successMsg">
+    <div class="left">
+      <div class="tick">✓</div>
+      <strong>Success!</strong>
+    </div>
+    <div class="cf">CLOUDFLARE<br><span style="font-size:.7rem">Privacy · Terms</span></div>
+    <button id="okBtn" style="margin-top:10px;width:100%;padding:10px;border:none;border-radius:12px;font-weight:600;color:#000;background:linear-gradient(90deg,#00ff66,#3cffc0);cursor:pointer;">OK</button>
+  </div>
+
+  <button id="registerBtn">⮕&nbsp; Register</button>
+</div>
+
+<script>
+// NEON RAIN
+const canvas=document.getElementById("rain");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+window.onresize=()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+
+const drops=[];
+for(let i=0;i<200;i++){
+  drops.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    l:10+Math.random()*20,
+    s:2+Math.random()*4
+  });
+}
+
+function drawRain(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drops.forEach(d=>{
+    ctx.strokeStyle='rgba(0,255,102,0.5)';
+    ctx.shadowColor='#00ff66';
+    ctx.shadowBlur=15;
+    ctx.beginPath();
+    ctx.moveTo(d.x,d.y);
+    ctx.lineTo(d.x,d.y+d.l);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.fillStyle='rgba(255,255,255,0.7)';
+    ctx.arc(d.x,d.y+d.l,2,0,Math.PI*2);
+    ctx.fill();
+
+    d.y+=d.s;
+    if(d.y>canvas.height){
+      d.y=-20;
+      d.x=Math.random()*canvas.width;
+    }
+  });
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+
+// REGISTRATION FUNCTIONALITY
+const registerBtn=document.getElementById("registerBtn");
+const successMsg=document.getElementById("successMsg");
+
+registerBtn.addEventListener("click",()=>{
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value;
+  const cp=document.getElementById("confirmPassword").value;
+  const token=document.getElementById("creditToken").value;
+
+  const validUser=/^[A-Z][a-zA-Z]*[A-Z](\s[A-Z][a-zA-Z]*)?$/.test(u);
+  if(!validUser){
+    alert("✖ Username must be like 'Ashutosh Kumar'");
+    return;
+  }
+  if(p!==cp){
+    alert("✖ Passwords do not match!");
+    return;
+  }
+
+  localStorage.setItem("regUsername",u);
+  localStorage.setItem("regPassword",p);
+  localStorage.setItem("regToken",token);
+
+  successMsg.style.display="flex";
+});
+
+// OK BUTTON → REDIRECT
+const okBtn=document.getElementById("okBtn");
+okBtn.addEventListener("click",()=>{
+  window.location.href="https://ayush304-tech.github.io/My-web-page-Laicense-/";
+});
+
+// 🔒 DISABLE ZOOM via keyboard + pinch
+document.addEventListener("wheel",e=>{if(e.ctrlKey)e.preventDefault();},{passive:false});
+document.addEventListener("gesturestart",e=>e.preventDefault());
+document.addEventListener("gesturechange",e=>e.preventDefault());
+document.addEventListener("gestureend",e=>e.preventDefault());
+</script>
+
+</body>
+</html>
